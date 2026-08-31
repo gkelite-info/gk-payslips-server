@@ -55,68 +55,87 @@ EmployeePayslips.init({
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
+
     employeeId: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: "employees",
+            key: "employeeId"
+        },
+        onUpdate: "CASCADE"
     },
+
     month: {
         type: DataTypes.STRING,
         allowNull: false
     },
+
     year: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+
     basicSalary: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     houseRentAllowance: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     transportationAllowance: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     telephoneAllowance: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     statutoryBonus: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     specialAllowance: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     companyDeduction: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     lossOfPay: {
         type: DataTypes.FLOAT,
         allowNull: true,
         defaultValue: 0
     },
+
     totalSalaryBeforeDeduction: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     totalSalaryAfterDeduction: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     status: {
         type: DataTypes.ENUM("draft", "approved", "paid"),
         allowNull: false,

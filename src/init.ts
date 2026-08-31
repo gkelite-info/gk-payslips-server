@@ -10,11 +10,11 @@ import EmployeeSalaryPayments from "./models/employeeSalaryPayments.ts";
 async function dbinit() {
     const isDev = false;
     await Users.sync({ alter: isDev });
-    await Employees.sync({ alter: isDev });
-    await EmployeeAddress.sync({ alter: isDev });
-    await EmployeeFinancials.sync({ alter: isDev });
-    await EmployeePayslips.sync({ alter: isDev });
-    await EmployeeSalaryPayments.sync({ alter: isDev });
+    // await Employees.sync({ alter: isDev });
+    // await EmployeeAddress.sync({ alter: isDev });
+    // await EmployeeFinancials.sync({ alter: isDev });
+    // await EmployeePayslips.sync({ alter: isDev });
+    // await EmployeeSalaryPayments.sync({ alter: isDev });
 
     await initAllRLSPolicies(sequelizeConnection);
 }
