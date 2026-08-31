@@ -11,11 +11,11 @@ export const initAllRLSPolicies = async (sequelize: Sequelize) => {
         console.log("--- Initializing Row Level Security ---");
 
         await enableUsersRLS(sequelize);
-        await enableEmployeesRLS(sequelize);
-        await enableEmployeeAddressRLS(sequelize);
-        await enableEmployeeFinancialsRLS(sequelize);
-        await enableEmployeePayslipsRLS(sequelize);
-        await enableEmployeeSalaryPaymentsRLS(sequelize);
+        // await enableEmployeesRLS(sequelize);
+        // await enableEmployeeAddressRLS(sequelize);
+        // await enableEmployeeFinancialsRLS(sequelize);
+        // await enableEmployeePayslipsRLS(sequelize);
+        // await enableEmployeeSalaryPaymentsRLS(sequelize);
 
         console.log("--- All RLS Policies Applied Successfully ---");
     } catch (error) {

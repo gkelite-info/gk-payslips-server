@@ -4,12 +4,12 @@ import Users from "./users.ts";
 
 export type EmploymentType = "full-time" | "part-time" | "contract" | "intern";
 export type WorkShift = "general" | "morning" | "night";
-export type EmployeeStatus = "active" | "on-leave" | "terminated" | "probation";
+export type EmployeeStatus = "active" | "on-leave" | "terminated" | "probation" | "alumni";
 
 export interface EmployeeAttributes {
-    employeePk: string;
-    userId: string;
     employeeId: string;
+    userId: string;
+    employeeSerialNo: string;
     joinedAt: Date | string;
     shift?: WorkShift;
     employmentType: EmploymentType;
@@ -23,13 +23,13 @@ export interface EmployeeAttributes {
     updatedAt?: Date;
 }
 
-export interface EmployeeInput extends Optional<EmployeeAttributes, "employeePk" | "shift" | "probationEndDate" | "exitDate" | "emergencyContactName" | "emergencyContactPhone"> { }
+export interface EmployeeInput extends Optional<EmployeeAttributes, "employeeId" | "shift" | "probationEndDate" | "exitDate" | "emergencyContactName" | "emergencyContactPhone"> { }
 export interface EmployeeOutput extends EmployeeAttributes { }
 
 class Employees extends Model<EmployeeAttributes, EmployeeInput> implements EmployeeAttributes {
-    public employeePk!: string;
-    public userId!: string;
     public employeeId!: string;
+    public userId!: string;
+    public employeeSerialNo!: string;
     public joinedAt!: Date | string;
     public shift?: WorkShift;
     public employmentType!: EmploymentType;
@@ -44,51 +44,66 @@ class Employees extends Model<EmployeeAttributes, EmployeeInput> implements Empl
 }
 
 Employees.init({
-    employeePk: {
+    employeeId: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
+
     userId: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: "users",
+            key: "userId"
+        },
+        onUpdate: "CASCADE"
     },
-    employeeId: {
+
+    employeeSerialNo: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
     },
+
     joinedAt: {
         type: DataTypes.DATE,
         allowNull: false
     },
+
     shift: {
         type: DataTypes.ENUM("general", "morning", "night"),
         allowNull: true,
         defaultValue: "general"
     },
+
     employmentType: {
         type: DataTypes.ENUM("full-time", "part-time", "contract", "intern"),
         allowNull: false,
         defaultValue: "full-time"
     },
+
     status: {
-        type: DataTypes.ENUM("active", "on-leave", "terminated", "probation"),
+        type: DataTypes.ENUM("active", "on-leave", "terminated", "probation", "alumni"),
         allowNull: false,
         defaultValue: "active"
     },
+
     probationEndDate: {
         type: DataTypes.DATE,
         allowNull: true
     },
+
     exitDate: {
         type: DataTypes.DATE,
         allowNull: true
     },
+
     emergencyContactName: {
         type: DataTypes.STRING,
         allowNull: true
     },
+
     emergencyContactPhone: {
         type: DataTypes.STRING,
         allowNull: true
@@ -98,11 +113,6 @@ Employees.init({
     sequelize: sequelizeConnection,
     tableName: "employees",
     indexes: [
-        {
-            name: "unq_employees_employee_id",
-            unique: true,
-            fields: ["employeeId"]
-        },
         {
             name: "idx_employees_user_id",
             fields: ["userId"]

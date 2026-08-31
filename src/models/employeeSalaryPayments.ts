@@ -42,32 +42,49 @@ EmployeeSalaryPayments.init({
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
+
     employeePayslipId: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: "employee_payslips",
+            key: "employeePayslipId"
+        },
+        onUpdate: "CASCADE"
     },
+
     employeeId: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: "employees",
+            key: "employeeId"
+        },
+        onUpdate: "CASCADE"
     },
+
     amountPaid: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     paymentDate: {
         type: DataTypes.DATE,
         allowNull: false
     },
+
     paymentMethod: {
         type: DataTypes.ENUM("bank_transfer", "cheque", "cash"),
         allowNull: false,
         defaultValue: "bank_transfer"
     },
+
     transactionReference: {
         type: DataTypes.STRING,
         allowNull: true
     },
+
     remarks: {
         type: DataTypes.TEXT,
         allowNull: true

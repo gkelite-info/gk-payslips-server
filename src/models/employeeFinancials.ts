@@ -49,56 +49,73 @@ EmployeeFinancials.init({
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
+
     employeeId: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: "employees",
+            key: "employeeId"
+        },
+        onUpdate: "CASCADE"
     },
+
     bankName: {
         type: DataTypes.STRING,
         allowNull: false
     },
+
     bankAccountNumber: {
         type: DataTypes.STRING,
         allowNull: false
     },
+
     bankIfscCode: {
         type: DataTypes.STRING,
         allowNull: false
     },
+
     panNumber: {
         type: DataTypes.STRING,
         allowNull: false
     },
+
     basicSalary: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     houseRentAllowance: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     transportationAllowance: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     telephoneAllowance: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     statutoryBonus: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     specialAllowance: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
     },
+
     companyDeduction: {
         type: DataTypes.FLOAT,
         allowNull: false,
