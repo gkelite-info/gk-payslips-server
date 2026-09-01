@@ -20,12 +20,14 @@ export interface EmployeePayslipAttributes {
     totalSalaryBeforeDeduction: number;
     totalSalaryAfterDeduction: number;
     status: PayslipStatus;
+    is_deleted?: boolean | null;
 
     createdAt?: Date;
     updatedAt?: Date;
+    deletedAt?: Date;
 }
 
-export interface EmployeePayslipInput extends Optional<EmployeePayslipAttributes, "employeePayslipId" | "lossOfPay" | "status"> { }
+export interface EmployeePayslipInput extends Optional<EmployeePayslipAttributes, "employeePayslipId" | "lossOfPay" | "status" | "is_deleted"> { }
 export interface EmployeePayslipOutput extends EmployeePayslipAttributes { }
 
 class EmployeePayslips extends Model<EmployeePayslipAttributes, EmployeePayslipInput> implements EmployeePayslipAttributes {
@@ -44,9 +46,11 @@ class EmployeePayslips extends Model<EmployeePayslipAttributes, EmployeePayslipI
     public totalSalaryBeforeDeduction!: number;
     public totalSalaryAfterDeduction!: number;
     public status!: PayslipStatus;
+    public is_deleted?: boolean | null;
 
     public readonly createdAt?: Date;
     public readonly updatedAt?: Date;
+    public readonly deletedAt?: Date;
 }
 
 EmployeePayslips.init({
@@ -140,9 +144,15 @@ EmployeePayslips.init({
         type: DataTypes.ENUM("draft", "approved", "paid"),
         allowNull: false,
         defaultValue: "draft"
+    },
+
+    is_deleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 }, {
     timestamps: true,
+    paranoid: true,
     sequelize: sequelizeConnection,
     tableName: "employee_payslips",
     indexes: [
@@ -153,7 +163,10 @@ EmployeePayslips.init({
         {
             name: "unq_employee_payslips_month_year",
             unique: true,
-            fields: ["employeeId", "month", "year"]
+            fields: ["employeeId", "month", "year"],
+            where: {
+                deletedAt: null
+            }
         }
     ]
 });

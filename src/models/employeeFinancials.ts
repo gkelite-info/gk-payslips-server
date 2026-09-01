@@ -16,12 +16,14 @@ export interface EmployeeFinancialAttributes {
     statutoryBonus: number;
     specialAllowance: number;
     companyDeduction: number;
+    aadhaarNumber?: string | null;
+    uanNumber?: string | null;
 
     createdAt?: Date;
     updatedAt?: Date;
 }
 
-export interface EmployeeFinancialInput extends Optional<EmployeeFinancialAttributes, "employeeFinancialId"> { }
+export interface EmployeeFinancialInput extends Optional<EmployeeFinancialAttributes, "employeeFinancialId" | "aadhaarNumber" | "uanNumber"> { }
 export interface EmployeeFinancialOutput extends EmployeeFinancialAttributes { }
 
 class EmployeeFinancials extends Model<EmployeeFinancialAttributes, EmployeeFinancialInput> implements EmployeeFinancialAttributes {
@@ -38,6 +40,8 @@ class EmployeeFinancials extends Model<EmployeeFinancialAttributes, EmployeeFina
     public statutoryBonus!: number;
     public specialAllowance!: number;
     public companyDeduction!: number;
+    public aadhaarNumber?: string | null;
+    public uanNumber?: string | null;
 
     public readonly createdAt?: Date;
     public readonly updatedAt?: Date;
@@ -120,7 +124,20 @@ EmployeeFinancials.init({
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
+    },
+
+    aadhaarNumber: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true
+    },
+
+    uanNumber: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true
     }
+
 }, {
     timestamps: true,
     sequelize: sequelizeConnection,
@@ -129,6 +146,14 @@ EmployeeFinancials.init({
         {
             name: "idx_employee_financials_employee_id",
             fields: ["employeeId"]
+        },
+        {
+            name: "idx_employee_financials_aadhaar_number",
+            fields: ["aadhaarNumber"]
+        },
+        {
+            name: "idx_employee_financials_uan_number",
+            fields: ["uanNumber"]
         }
     ]
 });
