@@ -76,7 +76,7 @@ Users.init({
 
     alternateMobile: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: true
     },
 
