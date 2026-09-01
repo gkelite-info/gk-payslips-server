@@ -16,14 +16,15 @@ export interface EmployeeAttributes {
     status: EmployeeStatus;
     probationEndDate?: Date | null;
     exitDate?: Date | null;
-    emergencyContactName?: string;
-    emergencyContactPhone?: string;
+    emergencyContactName?: string | null;
+    emergencyContactPhone?: string | null;
+    designation?: string | null;
 
     createdAt?: Date;
     updatedAt?: Date;
 }
 
-export interface EmployeeInput extends Optional<EmployeeAttributes, "employeeId" | "shift" | "probationEndDate" | "exitDate" | "emergencyContactName" | "emergencyContactPhone"> { }
+export interface EmployeeInput extends Optional<EmployeeAttributes, "employeeId" | "shift" | "probationEndDate" | "exitDate" | "emergencyContactName" | "emergencyContactPhone" | "designation"> { }
 export interface EmployeeOutput extends EmployeeAttributes { }
 
 class Employees extends Model<EmployeeAttributes, EmployeeInput> implements EmployeeAttributes {
@@ -36,8 +37,9 @@ class Employees extends Model<EmployeeAttributes, EmployeeInput> implements Empl
     public status!: EmployeeStatus;
     public probationEndDate?: Date | null;
     public exitDate?: Date | null;
-    public emergencyContactName?: string;
-    public emergencyContactPhone?: string;
+    public emergencyContactName?: string | null;
+    public emergencyContactPhone?: string | null;
+    public designation?: string | null;
 
     public readonly createdAt?: Date;
     public readonly updatedAt?: Date;
@@ -105,6 +107,11 @@ Employees.init({
     },
 
     emergencyContactPhone: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+
+    designation: {
         type: DataTypes.STRING,
         allowNull: true
     }
